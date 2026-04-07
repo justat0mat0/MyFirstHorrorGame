@@ -30,9 +30,6 @@ public class DialogueUIController : MonoBehaviour, IPointerClickHandler
     [SerializeField] private float secondsPerChar = 0.04f;
     [Tooltip("空格、换行是否也发声（一般关）")]
     [SerializeField] private bool playSoundOnWhitespace;
-    [Tooltip("同一音效最短间隔，避免语速很快时声音糊在一起")]
-    [SerializeField] private float minSoundInterval = 0.03f;
-
     [Header("打字音效")]
     [SerializeField] private AudioSource audioSource;
     [SerializeField] private AudioClip defaultTypeSound;
@@ -47,7 +44,8 @@ public class DialogueUIController : MonoBehaviour, IPointerClickHandler
     private bool _playing;
     private bool _lineComplete;
     private Coroutine _typewriterRoutine;
-    private float _lastSoundTime;
+    /// <summary>上一段打字音效结束时间（unscaled），播完才允许下一段。</summary>
+    private float _typeSoundEndTime;
 
     private void Awake()
     {
@@ -135,10 +133,9 @@ public class DialogueUIController : MonoBehaviour, IPointerClickHandler
     {
         DialogueLine line = _data.lines[_index];
         _lineComplete = false;
-        _lastSoundTime = -999f;
+        _typeSoundEndTime = -999f;
 
-        int sp = Mathf.Clamp(line.speakerIndex, 0, 1);
-        SetPortraitHighlight(sp);
+        SetPortraitHighlight(line.speaker);
 
         UpdateHintForTyping();
 
@@ -200,11 +197,15 @@ public class DialogueUIController : MonoBehaviour, IPointerClickHandler
             return;
 
         float t = Time.unscaledTime;
-        if (t - _lastSoundTime < minSoundInterval)
+        if (t < _typeSoundEndTime)
             return;
 
-        _lastSoundTime = t;
         audioSource.PlayOneShot(clip, typeSoundVolume);
+
+        float pitch = Mathf.Abs(audioSource.pitch);
+        if (pitch < 0.0001f)
+            pitch = 1f;
+        _typeSoundEndTime = t + clip.length / pitch;
     }
 
     private AudioClip GetActiveTypeClip()
@@ -252,10 +253,10 @@ public class DialogueUIController : MonoBehaviour, IPointerClickHandler
         hintText.text = _index < _data.lines.Length - 1 ? "点击继续" : "点击结束";
     }
 
-    private void SetPortraitHighlight(int activeSpeaker)
+    private void SetPortraitHighlight(DialogueSpeakerSide side)
     {
-        SetImageAlpha(portraitLeft, activeSpeaker == 0 ? 1f : inactivePortraitAlpha);
-        SetImageAlpha(portraitRight, activeSpeaker == 1 ? 1f : inactivePortraitAlpha);
+        SetImageAlpha(portraitLeft, side == DialogueSpeakerSide.Left ? 1f : inactivePortraitAlpha);
+        SetImageAlpha(portraitRight, side == DialogueSpeakerSide.Right ? 1f : inactivePortraitAlpha);
     }
 
     private static void SetImageAlpha(Image img, float a)

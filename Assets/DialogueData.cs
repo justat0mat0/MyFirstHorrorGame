@@ -1,11 +1,19 @@
 using UnityEngine;
+using UnityEngine.Serialization;
+
+/// <summary>本句对话由左侧还是右侧角色说出（对应 DialogueData 里的头像与名字）。</summary>
+public enum DialogueSpeakerSide
+{
+    Left,
+    Right
+}
 
 [System.Serializable]
 public class DialogueLine
 {
-    /// <summary>0 = 左侧角色，1 = 右侧角色</summary>
-    [Range(0, 1)]
-    public int speakerIndex;
+    [Tooltip("说话的是左侧还是右侧角色")]
+    [FormerlySerializedAs("speakerIndex")]
+    public DialogueSpeakerSide speaker;
 
     [TextArea(2, 6)]
     public string text;

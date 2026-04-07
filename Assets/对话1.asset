@@ -17,10 +17,10 @@ MonoBehaviour:
   nameLeft: Player
   nameRight: Chef
   lines:
-  - speakerIndex: 0
+  - speaker: 0
     text: hello
-  - speakerIndex: 0
+  - speaker: 1
     text: "What is going on\t"
-  - speakerIndex: 0
+  - speaker: 0
     text: I am trying to find out some meat
   typingSoundOverride: {fileID: 0}
