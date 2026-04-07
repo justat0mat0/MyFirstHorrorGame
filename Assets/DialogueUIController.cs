@@ -12,6 +12,8 @@ using UnityEngine.UI;
 [RequireComponent(typeof(Image))]
 public class DialogueUIController : MonoBehaviour, IPointerClickHandler
 {
+    public static DialogueUIController Instance { get; private set; }
+
     [Header("UI 引用")]
     [SerializeField] private GameObject rootPanel;
     [SerializeField] private Image portraitLeft;
@@ -49,8 +51,22 @@ public class DialogueUIController : MonoBehaviour, IPointerClickHandler
 
     private void Awake()
     {
+        if (Instance == null)
+            Instance = this;
+        else
+        {
+            Destroy(gameObject);
+            return;
+        }
+
         if (rootPanel != null)
             rootPanel.SetActive(false);
+    }
+
+    private void OnDestroy()
+    {
+        if (Instance == this)
+            Instance = null;
     }
 
     private void OnDisable()
@@ -93,6 +109,11 @@ public class DialogueUIController : MonoBehaviour, IPointerClickHandler
     }
 
     public void OnPointerClick(PointerEventData eventData)
+    {
+        ProcessDialogueLine();
+    }
+
+    private void ProcessDialogueLine()
     {
         if (!_playing || _data == null)
             return;
