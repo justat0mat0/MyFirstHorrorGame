@@ -10,17 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 27f8749596482864282d738d4e870adc, type: 3}
-  m_Name: "\u5BF9\u8BDD2"
+  m_Name: 1-1-1
   m_EditorClassIdentifier: 
-  portraitLeft: {fileID: 21300000, guid: 3cd951b8a643bce4abd8a3b99abd4eae, type: 3}
-  portraitRight: {fileID: 21300000, guid: b936825bb77ed8c429d2e9d83f2b48ed, type: 3}
-  nameLeft: Player
-  nameRight: Chef
+  portraitLeft: {fileID: 0}
+  portraitRight: {fileID: 0}
+  nameLeft: Minsu
+  nameRight: ' '
   lines:
   - speaker: 0
-    text: What!? Why you are still here are you wanna die?
-  - speaker: 1
-    text: "Whats up Man\t"
+    text: "\uFF08\u5148\u53BB\u4F11\u606F\u5BA4\u4F69\u6234\u5DE5\u724C/\u9605\u8BFB\u5458\u5DE5\u624B\u518C/\u6362\u5DE5\u670D\uFF09"
   - speaker: 0
-    text: let see
+    text: "\uFF08\u9605\u8BFB\u5DE5\u4F5C\u65F6\u95F4\uFF09"
   typingSoundOverride: {fileID: 0}
