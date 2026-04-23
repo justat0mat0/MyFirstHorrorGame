@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7c8a2d1e9b34f6580c1a2d3e4f50617, type: 3}
+  m_Name: PuzzleInteractBook2
+  m_EditorClassIdentifier: 
+  title: "\u65E5\u8BB0\u672C"
+  illustration: {fileID: 21300000, guid: 0f0349d6c1efd0f4295ff5e0f76acea7, type: 3}
+  illustrationLayout: 0
+  illustrationCustomAspectRatio: 1
+  lines:
+  - text: "\u65E5\u8BB0\u672C\u6253\u4E0D\u5F00"
+    lineBeginEventId: 
+    lineCompleteEventId: 
+  - text: "\u4F3C\u4E4E\u9700\u8981\u4E00\u4E2A\u516D\u4F4D\u6570\u7684\u5BC6\u7801"
+    lineBeginEventId: 
+    lineCompleteEventId: 
+  interactStartEventId: 
+  interactEndEventId: 
+  typingSoundOverride: {fileID: 0}
