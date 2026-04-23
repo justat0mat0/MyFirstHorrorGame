@@ -2456,7 +2456,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &523467661
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2545,6 +2545,12 @@ MonoBehaviour:
   onDialogueEnded:
     m_PersistentCalls:
       m_Calls: []
+    m_CallsDirty: 1
+  _data: {fileID: 0}
+  _index: 0
+  _playing: 0
+  _lineComplete: 0
+  _typeSoundEndTime: 0
 --- !u!82 &523467665
 AudioSource:
   m_ObjectHideFlags: 0
@@ -5418,6 +5424,12 @@ MonoBehaviour:
   onDialogueEnded:
     m_PersistentCalls:
       m_Calls: []
+    m_CallsDirty: 1
+  _data: {fileID: 0}
+  _index: 0
+  _playing: 0
+  _lineComplete: 0
+  _typeSoundEndTime: 0
 --- !u!114 &1528261417
 MonoBehaviour:
   m_ObjectHideFlags: 0
