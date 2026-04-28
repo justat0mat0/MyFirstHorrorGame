@@ -1,0 +1,38 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 27f8749596482864282d738d4e870adc, type: 3}
+  m_Name: "\u670D\u52A1\u54581-1-3"
+  m_EditorClassIdentifier: 
+  portraitLeft: {fileID: 21300000, guid: aa8ded99756db7e43ac90f97108de562, type: 3}
+  portraitRight: {fileID: 21300000, guid: 85df844907a80d24f8c35d60f3b7abf1, type: 3}
+  nameLeft: Minsu
+  nameRight: "\u670D\u52A1\u54581"
+  lines:
+  - speaker: 1
+    text: "\u8FD9\u662F\u5DE5\u670D\uFF0C\u6BCF\u5929\u7EDF\u4E00\u56DE\u6536\u7EDF\u4E00\u6E05\u6D17"
+    lineBeginEventId: 
+    lineCompleteEventId: 
+  - speaker: 1
+    text: "\u4E0D\u8981\u9519\u8FC7\u56DE\u6536\u65F6\u95F4"
+    lineBeginEventId: 
+    lineCompleteEventId: 
+  - speaker: 1
+    text: "\u53EF\u4EE5\u7528\u6765\u6253\u5F00\u98DF\u6750\u4ED3\u5E93\uFF0C\u6700\u597D\u4E0D\u8981\u5F04\u4E22"
+    lineBeginEventId: 
+    lineCompleteEventId: 
+  - speaker: 1
+    text: "\u5269\u4E0B\u7684\u4FE1\u606F\u53EF\u4EE5\u770B\u5458\u5DE5\u624B\u518C"
+    lineBeginEventId: 
+    lineCompleteEventId: 
+  dialogueStartEventId: 
+  dialogueEndEventId: 
+  typingSoundOverride: {fileID: 0}
