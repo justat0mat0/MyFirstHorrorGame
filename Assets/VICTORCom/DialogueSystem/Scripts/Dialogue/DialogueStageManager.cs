@@ -1,3 +1,4 @@
+using Cinemachine;
 using UnityEngine;
 namespace VICTORCom
 {
@@ -102,9 +103,26 @@ namespace VICTORCom
         {
             switch (eventId)
             {
+                case "canGuanE1":
+                    Debug.Log("can guan qie jing tou");
+                    //qie jingtou
+                    MoveToScene("staff lounge");
+                    break;
+
+                case "canGuanE2":
+                    Debug.Log("can guan qie jing tou");
+                    //qie jingtou
+                    MoveToScene("sanZuo");
+                    break;
                 default:
                     break;
             }
+        }
+
+        private static void MoveToScene(string location)
+        {
+            var cam = GameObject.Find("scene").transform.Find(location).Find("CamPos").transform.GetComponentInChildren<CinemachineVirtualCamera>();
+            CameraController.Instance.SwitchToCamera(cam);
         }
     }
 }

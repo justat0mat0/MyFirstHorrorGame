@@ -20,7 +20,7 @@ MonoBehaviour:
   - speaker: 1
     text: "\u8FD9\u662F\u5458\u5DE5\u4F11\u606F\u5BA4"
     lineBeginEventId: 
-    lineCompleteEventId: 
+    lineCompleteEventId: canGuanE2
   dialogueStartEventId: 
   dialogueEndEventId: 
   typingSoundOverride: {fileID: 0}
