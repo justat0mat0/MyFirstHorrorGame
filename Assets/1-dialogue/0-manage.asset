@@ -10,23 +10,23 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 27f8749596482864282d738d4e870adc, type: 3}
-  m_Name: "\u670D\u52A1\u54581-1-2"
+  m_Name: 0-manage
   m_EditorClassIdentifier: 
-  portraitLeft: {fileID: 21300000, guid: aa8ded99756db7e43ac90f97108de562, type: 3}
-  portraitRight: {fileID: 21300000, guid: 85df844907a80d24f8c35d60f3b7abf1, type: 3}
-  nameLeft: Minsu
-  nameRight: "\u670D\u52A1\u54581"
+  portraitLeft: {fileID: 0}
+  portraitRight: {fileID: 0}
+  nameLeft: ' '
+  nameRight: " \u7ECF\u7406"
   lines:
-  - speaker: 1
-    text: "\u8FD9\u662F\u5DE5\u724C\uFF0C\u662F\u6BCF\u4E2A\u5458\u5DE5\u7684\u6807\u5FD7"
+  - speaker: 0
+    text: "\u4F60\u597D\uFF0C\u8FD9\u662F\u6211\u7684\u5165\u804C\u4F53\u68C0\u62A5\u544A\u3002"
     lineBeginEventId: 
     lineCompleteEventId: 
   - speaker: 1
-    text: "\u53EF\u4EE5\u7528\u6765\u6253\u5F00\u98DF\u6750\u4ED3\u5E93\uFF0C\u6700\u597D\u4E0D\u8981\u5F04\u4E22"
+    text: "\u597D\u7684\uFF0C\u8BF7\u7A0D\u7B49\u3002"
     lineBeginEventId: 
     lineCompleteEventId: 
   - speaker: 1
-    text: "\u6240\u4EE5\u6700\u597D\u653E\u5728\u4E2A\u4EBA\u50A8\u7269\u67DC\u91CC\uFF0C\u4E0A\u73ED\u518D\u6234\u4E0A"
+    text: "\u6307\u6807\u5168\u90E8\u5408\u683C\u3002\n\u4E4B\u540E\u5B9E\u4E60\u671F\u4F1A\u6709\u8001\u5458\u5DE5\u5E26\u9886\u4F60\u3002"
     lineBeginEventId: 
     lineCompleteEventId: 
   dialogueStartEventId: 
