@@ -1,0 +1,54 @@
+{
+  "quests": [
+    {
+      "questId": "quest_001",
+      "questName": "拜访村长",
+      "description": "你来到了一个宁静的小村庄。去和村长聊聊，了解一下村子的情况吧。",
+      "category": 0,
+      "giverNpcId": "village_chief",
+      "objectives": [
+        { "type": 2, "targetId": "village_chief", "targetCount": 1, "description": "与村长对话" }
+      ],
+      "rewards": {
+        "gold": 50,
+        "exp": 20,
+        "items": []
+      },
+      "prerequisiteQuestId": ""
+    },
+    {
+      "questId": "quest_002",
+      "questName": "采集草药",
+      "description": "药师需要一些草药来制作药水。帮她在村子周围采集一些草药，然后交给她。",
+      "category": 1,
+      "giverNpcId": "herbalist",
+      "objectives": [
+        { "type": 0, "targetId": "herb", "targetCount": 3, "description": "采集草药 x3" },
+        { "type": 2, "targetId": "herbalist", "targetCount": 1, "description": "交给药师" }
+      ],
+      "rewards": {
+        "gold": 100,
+        "exp": 40,
+        "items": []
+      },
+      "prerequisiteQuestId": ""
+    },
+    {
+      "questId": "quest_003",
+      "questName": "帮助建筑师",
+      "description": "建筑师正在修缮村子的围墙，需要木材。帮忙收集一些木材交给他吧。",
+      "category": 1,
+      "giverNpcId": "builder",
+      "objectives": [
+        { "type": 0, "targetId": "wood", "targetCount": 4, "description": "收集木材 x4" },
+        { "type": 2, "targetId": "builder", "targetCount": 1, "description": "交给建筑师" }
+      ],
+      "rewards": {
+        "gold": 150,
+        "exp": 60,
+        "items": []
+      },
+      "prerequisiteQuestId": ""
+    }
+  ]
+}

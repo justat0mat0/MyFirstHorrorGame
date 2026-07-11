@@ -1,0 +1,105 @@
+{
+    "dialogId": "dialog_001",
+    "dialogTitle": "顾客初次到店核对订单",
+    "nodes": [
+        {
+            "nodeId": 0,
+            "speakerName": "顾客",
+            "speakerAvatar": "avatar_customer_01",
+            "position": "left",
+            "content": "你好，这是我的预订单还有忌口清单。",
+            "nextNodeId": 1,
+            "choices": []
+        },
+        {
+            "nodeId": 1,
+            "speakerName": "服务员",
+            "speakerAvatar": "avatar_player_waiter",
+            "position": "right",
+            "content": "好的，请稍等。现在为您核对订单。",
+            "nextNodeId": -1,
+            "choices": [
+                {
+                    "choiceText": "审核通过，正常出餐",
+                    "targetNodeId": 3
+                },
+                {
+                    "choiceText": "订单存在冲突，驳回",
+                    "targetNodeId": 4
+                }
+            ]
+        },
+        {
+            "nodeId": 3,
+            "speakerName": "服务员",
+            "speakerAvatar": "avatar_player_waiter",
+            "position": "right",
+            "content": "核对无误，请您稍等，后厨会尽快为您准备餐品。",
+            "nextNodeId": -1,
+            "choices": []
+        },
+        {
+            "nodeId": 4,
+            "speakerName": "服务员",
+            "speakerAvatar": "avatar_player_waiter",
+            "position": "right",
+            "content": "您的订单和忌口要求出现冲突，请问需要如何处理？",
+            "nextNodeId": -1,
+            "choices": [
+                {
+                    "choiceText": "中止本次订单",
+                    "targetNodeId": 5
+                },
+                {
+                    "choiceText": "为顾客调整订单",
+                    "targetNodeId": 6
+                }
+            ]
+        },
+        {
+            "nodeId": 5,
+            "speakerName": "服务员",
+            "speakerAvatar": "avatar_player_waiter",
+            "position": "right",
+            "content": "非常抱歉，因订单冲突无法为您制作，本次订单已中止。",
+            "nextNodeId": -1,
+            "choices": []
+        },
+        {
+            "nodeId": 6,
+            "speakerName": "服务员",
+            "speakerAvatar": "avatar_player_waiter",
+            "position": "right",
+            "content": "很抱歉订单内存在冲突，需要为您更换更适配的菜品吗？",
+            "nextNodeId": -1,
+            "choices": [
+                {
+                    "choiceText": "推荐高价格的菜品",
+                    "targetNodeId": 7
+                },
+                {
+                    "choiceText": "推荐适配度更高的菜品",
+                    "targetNodeId": 8
+                }
+            ]
+        },
+        {
+            "nodeId": 7,
+            "speakerName": "服务员",
+            "speakerAvatar": "avatar_player_waiter",
+            "position": "right",
+            "content": "这是为您调整后的订单，请享用。",
+            "nextNodeId": -1,
+            "choices": []
+        },
+        {
+            "nodeId": 8,
+            "speakerName": "服务员",
+            "speakerAvatar": "avatar_player_waiter",
+            "position": "right",
+            "content": "这是根据原订单与忌口调整后的菜品，请享用。",
+            "nextNodeId": -1,
+            "choices": []
+        }
+    ]
+}
