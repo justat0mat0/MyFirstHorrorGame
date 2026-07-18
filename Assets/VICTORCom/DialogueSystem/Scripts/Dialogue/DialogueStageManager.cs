@@ -103,16 +103,27 @@ namespace VICTORCom
         {
             switch (eventId)
             {
-                case "canGuanE1":
-                    Debug.Log("can guan qie jing tou");
-                    //qie jingtou
-                    MoveToScene("staff lounge");
+                case "staff1_appear":
+
+                    Debug.Log("staff1出现");
+
+                    //以后这里放员工出现逻辑
+                    //例如：
+                    //staff1.SetActive(true);
+
                     break;
 
-                case "canGuanE2":
-                    Debug.Log("can guan qie jing tou");
-                    //qie jingtou
-                    MoveToScene("sanZuo");
+
+
+                //获得员工卡
+                case "get_staff_card":
+
+                    Debug.Log("获得员工卡");
+
+
+                    NotificationPopup.Show();
+
+
                     break;
                 default:
                     break;
