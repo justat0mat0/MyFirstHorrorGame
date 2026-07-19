@@ -1,135 +1,259 @@
-using UnityEngine;
 using System.Collections;
+using UnityEngine;
+using Cinemachine;
 
 public class MainMenuController : MonoBehaviour
 {
+    [Header("Camera")]
+    public CinemachineVirtualCamera stage1Cam;
+    public CinemachineVirtualCamera stage2Cam;
+    public CinemachineVirtualCamera settingsCam;
+    public CanvasGroup settingsCanvas;
 
-    public Camera mainCamera;
-
-    public Transform stage0CamPos;
-    public Transform stage1CamPos;
-
-
-    public CanvasGroup pressCanvas;
-
-    public GameObject stage0Canvas;
-    public GameObject stage1Canvas;
-
-
-    public float moveDuration = 2f;
-
-
-    bool started = false;
+    [Header("Title Move")]
+    public RectTransform titleCanvas;
+    public RectTransform titleStart;
+    public RectTransform titleEnd;
+    public float titleMoveDuration = 1.5f;
 
 
 
-    void Start()
+    [Header("Press Any Button Fade")]
+    public CanvasGroup pressGroup;
+    public float pressFadeDuration = 1f;
+
+
+
+    [Header("Menu Group Fade")]
+    public CanvasGroup menuGroup;
+    public float menuFadeDelay = 1.8f;
+    public float menuFadeDuration = 1.2f;
+
+
+
+    [Header("Settings")]
+    public bool startWithMenuHidden = true;
+
+
+
+    private bool started = false;
+
+
+
+    void Awake()
     {
-        mainCamera.transform.position = stage0CamPos.position;
-        mainCamera.transform.rotation = stage0CamPos.rotation;
+        // Title初始位置
+        if (titleCanvas != null && titleStart != null)
+        {
+            titleCanvas.position = titleStart.position;
+        }
 
-        stage0Canvas.SetActive(true);
-        stage1Canvas.SetActive(false);
+
+        // Menu初始隐藏
+        if (startWithMenuHidden && menuGroup != null)
+        {
+            menuGroup.alpha = 0;
+            menuGroup.interactable = false;
+            menuGroup.blocksRaycasts = false;
+        }
+
+
+        // Press显示
+        if (pressGroup != null)
+        {
+            pressGroup.alpha = 1;
+        }
+
+
+        // 防止Stage1一开始抢镜
+        if (stage1Cam != null)
+        {
+            stage1Cam.Priority = 0;
+        }
     }
 
 
 
     void Update()
     {
-
         if (!started && Input.anyKeyDown)
         {
             started = true;
 
-            StartCoroutine(StartMenu());
+
+
+            // Camera切换
+            if (stage1Cam != null)
+            {
+                stage1Cam.Priority = 20;
+            }
+
+
+
+            // Title移动
+            if (titleCanvas != null && titleEnd != null)
+            {
+                StartCoroutine(MoveTitle());
+            }
+
+
+
+            // Press消失
+            if (pressGroup != null)
+            {
+                StartCoroutine(FadeOutPress());
+            }
+
+
+
+            // Menu出现
+            if (menuGroup != null)
+            {
+                StartCoroutine(FadeInMenu());
+            }
+        }
+    }
+
+
+
+
+    IEnumerator MoveTitle()
+    {
+        float timer = 0;
+
+
+        Vector3 startPos = titleCanvas.position;
+        Vector3 endPos = titleEnd.position;
+
+
+
+        while (timer < titleMoveDuration)
+        {
+            timer += Time.deltaTime;
+
+
+            float t = timer / titleMoveDuration;
+
+
+            titleCanvas.position =
+                Vector3.Lerp(
+                    startPos,
+                    endPos,
+                    t
+                );
+
+
+            yield return null;
         }
 
+
+        titleCanvas.position = endPos;
     }
 
-
-
-    IEnumerator StartMenu()
-    {
-
-        // Press fade
-        yield return StartCoroutine(FadeOutPress());
-
-
-        // 镜头移动
-        yield return StartCoroutine(MoveCamera());
-
-
-        stage0Canvas.SetActive(false);
-        stage1Canvas.SetActive(true);
-
-    }
 
 
 
     IEnumerator FadeOutPress()
     {
+        float timer = 0;
 
-        float time = 0;
 
 
-        while (time < 1)
+        while (timer < pressFadeDuration)
         {
-            time += Time.deltaTime;
+            timer += Time.deltaTime;
 
-            pressCanvas.alpha = 1 - time;
+
+            pressGroup.alpha =
+                Mathf.Lerp(
+                    1,
+                    0,
+                    timer / pressFadeDuration
+                );
+
 
             yield return null;
         }
 
-        pressCanvas.alpha = 0;
 
+        pressGroup.alpha = 0;
     }
 
 
 
-    IEnumerator MoveCamera()
+
+
+    IEnumerator FadeInMenu()
     {
-
-        float time = 0;
-
-
-        Vector3 startPos = mainCamera.transform.position;
-        Quaternion startRot = mainCamera.transform.rotation;
+        yield return new WaitForSeconds(menuFadeDelay);
 
 
-        while (time < moveDuration)
+
+        float timer = 0;
+
+
+        menuGroup.interactable = true;
+        menuGroup.blocksRaycasts = true;
+
+
+
+        while (timer < menuFadeDuration)
         {
-
-            time += Time.deltaTime;
-
-            float t = time / moveDuration;
+            timer += Time.deltaTime;
 
 
-            // 平滑曲线
-            t = Mathf.SmoothStep(0, 1, t);
-
-
-            mainCamera.transform.position =
-                Vector3.Lerp(
-                    startPos,
-                    stage1CamPos.position,
-                    t
-                );
-
-
-            mainCamera.transform.rotation =
-                Quaternion.Lerp(
-                    startRot,
-                    stage1CamPos.rotation,
-                    t
+            menuGroup.alpha =
+                Mathf.Lerp(
+                    0,
+                    1,
+                    timer / menuFadeDuration
                 );
 
 
             yield return null;
-
         }
 
 
+        menuGroup.alpha = 1;
     }
+    public void EnterStage2()
+    {
+        if (stage2Cam != null)
+        {
+            stage2Cam.Priority = 20;
+        }
+    }
+    public void EnterSettings()
+    {
+        if (settingsCam != null)
+        {
+            settingsCam.Priority = 30;
+        }
 
+        if (settingsCanvas != null)
+        {
+            settingsCanvas.alpha = 1;
+            settingsCanvas.interactable = true;
+            settingsCanvas.blocksRaycasts = true;
+        }
+    }
+    public void ExitSettings()
+    {
+        if (settingsCam != null)
+        {
+            settingsCam.Priority = 0;
+        }
+
+        if (stage2Cam != null)
+        {
+            stage2Cam.Priority = 20;
+        }
+
+        if (settingsCanvas != null)
+        {
+            settingsCanvas.alpha = 0;
+            settingsCanvas.interactable = false;
+            settingsCanvas.blocksRaycasts = false;
+        }
+    }
 }

@@ -12,14 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16860026da54450394f6a38fe250e740, type: 3}
   m_Name: Color_Fade
   m_EditorClassIdentifier: 
-  effectName: fade
+  effectTag: fade
   startCharIndex: 0
   charLength: 132
   animationType: 2
   fixedDuration: 0
-  durationPerChar: 0.5
+  durationPerChar: 3
+  timeBetweenChars: 0
   noDelayForChars: 1
-  timeBetweenChars: 0.05
   reverseCharOrder: 0
   easingCurve:
     serializedVersion: 2
@@ -54,6 +54,8 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  clampBetween0And1: 0
+  timeType: 0
   colorType: 2
   startColor: {r: 1, g: 1, b: 1, a: 1}
   endColor: {r: 1, g: 0, b: 0, a: 1}
@@ -90,4 +92,4 @@ MonoBehaviour:
   orientation: 0
   stride: 20
   startAlpha: 1
-  endAlpha: 0.259
+  endAlpha: 0.35

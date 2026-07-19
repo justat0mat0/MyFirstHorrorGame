@@ -17,7 +17,7 @@ MonoBehaviour:
   charLength: 0
   animationType: 2
   fixedDuration: 0
-  durationPerChar: 2
+  durationPerChar: 4.5
   timeBetweenChars: 0
   noDelayForChars: 1
   reverseCharOrder: 0
@@ -26,35 +26,35 @@ MonoBehaviour:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
+      value: 0.002998352
+      inSlope: 1.5915095
+      outSlope: 1.5915095
+      tangentMode: 34
       weightedMode: 0
       inWeight: 0
-      outWeight: 0
+      outWeight: 0.33333334
     - serializedVersion: 3
-      time: 0.5600994
-      value: 0.6032151
-      inSlope: 4.3951273
-      outSlope: 4.3951273
-      tangentMode: 0
+      time: 0.49982235
+      value: 0.7984704
+      inSlope: -0.0074854493
+      outSlope: -0.0074854493
+      tangentMode: 34
       weightedMode: 0
       inWeight: 0.33333334
-      outWeight: 0.035472687
+      outWeight: 0.33333334
     - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 1
-      outSlope: 1
-      tangentMode: 0
+      time: 1.0000082
+      value: -0.005068333
+      inSlope: -1.6064804
+      outSlope: -1.6064804
+      tangentMode: 34
       weightedMode: 0
-      inWeight: 0
+      inWeight: 0.33333334
       outWeight: 0
     m_PreInfinity: 2
-    m_PostInfinity: 2
+    m_PostInfinity: 0
     m_RotationOrder: 4
   clampBetween0And1: 0
   timeType: 0
-  startOffset: {x: -0, y: -10}
+  startOffset: {x: -0, y: -7.5}
   endOffset: {x: 0, y: 0}
