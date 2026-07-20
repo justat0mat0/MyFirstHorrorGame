@@ -1,6 +1,5 @@
 using System.Collections;
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 
@@ -51,6 +50,9 @@ public class Stage3EnterController : MonoBehaviour
 
     public void Enter()
     {
+        Debug.Log("Stage3 Enter Clicked");
+
+
         if (triggered)
             return;
 
@@ -68,28 +70,33 @@ public class Stage3EnterController : MonoBehaviour
     IEnumerator Stage3Sequence()
     {
 
-        // Title变化
+        Debug.Log("Stage3 Sequence Start");
+
+
         StartCoroutine(ChangeTitle());
 
-
-        // ENTER -> EXPLORE
         StartCoroutine(ChangeButton());
 
 
-
-        // 等待玩家看到变化
         yield return new WaitForSeconds(menuFadeDelay);
 
 
+        Debug.Log("Start Fade Menu");
 
-        // Menu消失
+
         yield return StartCoroutine(FadeOutMenu());
 
 
+        Debug.Log("Fade Finished");
 
-        // 进入Scene前等待
+
         yield return new WaitForSeconds(sceneLoadDelay);
 
+
+        ChapterState.EnterChapter(3);
+
+
+        Debug.Log("Loading Stage3 SampleScene");
 
 
         SceneManager.LoadScene(sceneName);

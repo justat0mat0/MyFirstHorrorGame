@@ -230,11 +230,19 @@ public class MainMenuController : MonoBehaviour
             settingsCam.Priority = 30;
         }
 
+
         if (settingsCanvas != null)
         {
             settingsCanvas.alpha = 1;
             settingsCanvas.interactable = true;
             settingsCanvas.blocksRaycasts = true;
+        }
+
+
+        // πÿ±’ª∑æ≥“Ù
+        if (AudioManager.instance != null)
+        {
+            AudioManager.instance.StopAmbient();
         }
     }
     public void ExitSettings()
