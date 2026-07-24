@@ -4,6 +4,13 @@ using UnityEngine;
 
 public class ReportPrinterEffect : MonoBehaviour
 {
+    [Header("打印机整体")]
+    public GameObject printerGroup;
+
+    public float printerFadeDuration = 0.5f;
+
+
+
     [Header("纸张物件")]
     public Transform paperRoot;
 
@@ -11,31 +18,55 @@ public class ReportPrinterEffect : MonoBehaviour
     public SpriteRenderer completePaper;
 
 
+
+    [Header("打印遮罩")]
+    public GameObject paperMask;
+
+
+
+    [Header("打印声音")]
+    public AudioSource printerAudio;
+
+    public AudioClip printingSound;
+
+
+
     [Header("打印位置")]
     public Vector3 startPosition;
+
     public Vector3 endPosition;
 
 
+
     [Header("动画时间")]
+    public float printerWaitTime = 0.8f;
+
     public float moveDuration = 2f;
+
 
 
     [Header("测试播放")]
     public bool playOnStart = false;
 
 
+
     private bool isPrinting = false;
 
 
-    // 打印完成事件
+
     public Action OnPrintComplete;
 
 
 
     private void Start()
     {
-        // 初始隐藏报告纸
         HidePaper();
+
+
+        if (printerGroup != null)
+        {
+            printerGroup.SetActive(false);
+        }
 
 
         if (playOnStart)
@@ -46,39 +77,114 @@ public class ReportPrinterEffect : MonoBehaviour
 
 
 
+
+
     public void PlayPrint()
     {
-        // 防止重复打印
         if (isPrinting)
             return;
 
 
-        Debug.Log("ReportPrinterEffect: 开始打印");
-
-        StartCoroutine(PrintRoutine());
+        StartCoroutine(
+            PrinterRoutine()
+        );
     }
+
+
+
+
+
+    private IEnumerator PrinterRoutine()
+    {
+        isPrinting = true;
+
+
+
+        // 打开整体
+        if (printerGroup != null)
+        {
+            printerGroup.SetActive(true);
+        }
+
+
+
+        // 等待出现
+        yield return new WaitForSeconds(
+            printerFadeDuration
+        );
+
+
+
+        // 打印口打开
+        if (paperMask != null)
+        {
+            paperMask.SetActive(true);
+        }
+
+
+
+        yield return new WaitForSeconds(
+            printerWaitTime
+        );
+
+
+
+        // 出纸
+        yield return StartCoroutine(
+            PrintRoutine()
+        );
+
+
+
+        // 整体关闭
+        if (printerGroup != null)
+        {
+            printerGroup.SetActive(false);
+        }
+
+
+
+        isPrinting = false;
+
+
+
+        OnPrintComplete?.Invoke();
+    }
+
+
 
 
 
     private IEnumerator PrintRoutine()
     {
-        isPrinting = true;
-
-
-        // 设置初始位置
         if (paperRoot != null)
         {
-            paperRoot.localPosition = startPosition;
+            paperRoot.localPosition =
+                startPosition;
         }
 
 
-        // 打印开始时显示白纸
-        SetAlpha(blankPaper, 1f);
-        SetAlpha(completePaper, 0f);
+
+        SetAlpha(
+            blankPaper,
+            1f
+        );
+
+
+        SetAlpha(
+            completePaper,
+            0f
+        );
+
+
+
+        // 纸移动开始
+        StartPrinterSound();
 
 
 
         float timer = 0f;
+
 
 
         while (timer < moveDuration)
@@ -86,11 +192,11 @@ public class ReportPrinterEffect : MonoBehaviour
             timer += Time.deltaTime;
 
 
-            float t = timer / moveDuration;
+            float t =
+                timer / moveDuration;
 
 
 
-            // 纸张移动
             if (paperRoot != null)
             {
                 paperRoot.localPosition =
@@ -103,14 +209,12 @@ public class ReportPrinterEffect : MonoBehaviour
 
 
 
-            // 白纸逐渐消失
             SetAlpha(
                 blankPaper,
                 1f - t
             );
 
 
-            // 完整报告逐渐出现
             SetAlpha(
                 completePaper,
                 t
@@ -123,36 +227,94 @@ public class ReportPrinterEffect : MonoBehaviour
 
 
 
-        // 最终状态
         if (paperRoot != null)
         {
-            paperRoot.localPosition = endPosition;
+            paperRoot.localPosition =
+                endPosition;
         }
 
 
-        SetAlpha(blankPaper, 0f);
-        SetAlpha(completePaper, 1f);
+
+        SetAlpha(
+            blankPaper,
+            0f
+        );
+
+
+        SetAlpha(
+            completePaper,
+            1f
+        );
 
 
 
-        isPrinting = false;
-
-
-        Debug.Log("ReportPrinterEffect: 打印完成");
-
-
-        // 通知外部流程
-        OnPrintComplete?.Invoke();
+        // 纸停止 → 声音停止
+        StopPrinterSound();
     }
 
 
 
-    // 初始隐藏纸张
+
+
+    private void StartPrinterSound()
+    {
+        if (printerAudio != null &&
+           printingSound != null)
+        {
+            printerAudio.clip =
+                printingSound;
+
+
+            printerAudio.loop = true;
+
+
+            printerAudio.Play();
+
+
+            Debug.Log(
+                "打印声音开始"
+            );
+        }
+    }
+
+
+
+
+
+    private void StopPrinterSound()
+    {
+        if (printerAudio != null)
+        {
+            printerAudio.Stop();
+
+            printerAudio.loop = false;
+
+
+            Debug.Log(
+                "打印声音停止"
+            );
+        }
+    }
+
+
+
+
+
     private void HidePaper()
     {
-        SetAlpha(blankPaper, 0f);
-        SetAlpha(completePaper, 0f);
+        SetAlpha(
+            blankPaper,
+            0f
+        );
+
+
+        SetAlpha(
+            completePaper,
+            0f
+        );
     }
+
+
 
 
 
@@ -165,10 +327,15 @@ public class ReportPrinterEffect : MonoBehaviour
             return;
 
 
-        Color color = renderer.color;
+        Color color =
+            renderer.color;
 
-        color.a = alpha;
 
-        renderer.color = color;
+        color.a =
+            alpha;
+
+
+        renderer.color =
+            color;
     }
 }

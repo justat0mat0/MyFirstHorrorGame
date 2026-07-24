@@ -8,29 +8,53 @@ public class Stage1EndController : MonoBehaviour
     public GameObject stage1End;
 
 
+
     [Header("Report Flow")]
     public GameObject performancePopup;
+
     public ReportPrinterEffect printerEffect;
+
+    public ReportConfirmController confirmController;
+
+
+
+    [Header("UI 音效")]
+    public AudioSource uiAudio;
+
+    public AudioClip popupSound;
+
 
 
     [Header("Timing")]
     public float popupDelay = 1f;
 
+    public float printerDelay = 0.2f;
+
+
 
     private bool waitingConfirm = false;
 
+    private bool hasShownEnd = false;
 
 
-    void Start()
+
+    private void Start()
     {
-        // 初始隐藏结算界面
+        // 注册打印完成事件
+        if (printerEffect != null)
+        {
+            printerEffect.OnPrintComplete += OnPrinterFinished;
+        }
+
+
+
         if (stage1End != null)
         {
             stage1End.SetActive(false);
         }
 
 
-        // 初始隐藏绩效提示框
+
         if (performancePopup != null)
         {
             performancePopup.SetActive(false);
@@ -39,66 +63,94 @@ public class Stage1EndController : MonoBehaviour
 
 
 
-    void Update()
+
+
+    private void Update()
     {
-        // 测试进入Stage1End
+        // 测试
         if (Input.GetKeyDown(KeyCode.E))
         {
             ShowEnd();
         }
 
 
-        // 等待玩家确认提示
-        if (waitingConfirm && Input.GetMouseButtonDown(0))
+
+        if (waitingConfirm &&
+           Input.GetMouseButtonDown(0))
         {
-            ConfirmReport();
+            ConfirmPopup();
         }
     }
 
 
 
+
+
     public void ShowEnd()
     {
-        // 关闭工作阶段
+        if (hasShownEnd)
+            return;
+
+
+        hasShownEnd = true;
+
+
+
         if (stage1Play != null)
         {
             stage1Play.SetActive(false);
         }
 
 
-        // 打开结算阶段
+
         if (stage1End != null)
         {
             stage1End.SetActive(true);
 
-            StartCoroutine(StartReportFlow());
+            StartCoroutine(
+                StartReportFlow()
+            );
         }
     }
 
 
 
-    IEnumerator StartReportFlow()
+
+
+    private IEnumerator StartReportFlow()
     {
-        // 等待VCam切换稳定
-        yield return new WaitForSeconds(popupDelay);
+        yield return new WaitForSeconds(
+            popupDelay
+        );
 
 
-        // 显示绩效提示框
+
         if (performancePopup != null)
         {
             performancePopup.SetActive(true);
         }
 
 
-        // 开始等待玩家点击
+
+        if (uiAudio != null &&
+           popupSound != null)
+        {
+            uiAudio.PlayOneShot(
+                popupSound
+            );
+        }
+
+
+
         waitingConfirm = true;
     }
 
 
 
-    public void ConfirmReport()
+
+
+    private void ConfirmPopup()
     {
-        // 防止重复触发
         if (!waitingConfirm)
             return;
 
@@ -106,17 +158,63 @@ public class Stage1EndController : MonoBehaviour
         waitingConfirm = false;
 
 
-        // 隐藏提示框
+
         if (performancePopup != null)
         {
             performancePopup.SetActive(false);
         }
 
 
-        // 开始打印
+
+        StartCoroutine(
+            StartPrinter()
+        );
+    }
+
+
+
+
+
+    private IEnumerator StartPrinter()
+    {
+        yield return new WaitForSeconds(
+            printerDelay
+        );
+
+
+
         if (printerEffect != null)
         {
             printerEffect.PlayPrint();
+        }
+    }
+
+
+
+
+
+    private void OnPrinterFinished()
+    {
+        Debug.Log(
+            "Stage1EndController: 打印完成"
+        );
+
+
+        if (confirmController != null)
+        {
+            confirmController.ShowConfirmButton();
+        }
+    }
+
+
+
+
+
+    private void OnDestroy()
+    {
+        if (printerEffect != null)
+        {
+            printerEffect.OnPrintComplete -= OnPrinterFinished;
         }
     }
 }
