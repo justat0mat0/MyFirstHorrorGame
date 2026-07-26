@@ -4,11 +4,11 @@ using DG.Tweening;
 
 public class NotificationPopup : MonoBehaviour
 {
-    public static NotificationPopup Instance;
 
 
     [Header("弹窗图片")]
     public GameObject popupObject;
+
 
 
     [Header("动画设置")]
@@ -25,70 +25,122 @@ public class NotificationPopup : MonoBehaviour
 
 
 
+    [Header("大小设置")]
+    [Tooltip("弹窗最终显示大小")]
+    public float targetScale = 0.5f;
+
+
+
+
+
     private SpriteRenderer spriteRenderer;
+
+
 
 
 
     private void Awake()
     {
-        Instance = this;
 
+        if (popupObject != null)
+        {
+            spriteRenderer = popupObject.GetComponent<SpriteRenderer>();
 
-        spriteRenderer = popupObject.GetComponent<SpriteRenderer>();
+            popupObject.SetActive(false);
+        }
+        else
+        {
+            Debug.LogWarning(
+                "NotificationPopup: popupObject没有绑定",
+                this
+            );
+        }
 
-
-        popupObject.SetActive(false);
     }
 
 
 
-    public static void Show()
+
+
+
+
+    public void Show()
     {
-        if (Instance == null)
+
+        Debug.Log(
+            "NotificationPopup Show 被调用"
+        );
+
+
+
+        if (popupObject == null)
         {
-            Debug.LogWarning("没有找到NotificationPopup");
+            Debug.LogWarning(
+                "NotificationPopup: popupObject为空"
+            );
+
             return;
         }
 
 
-        Instance.ShowPopup();
-    }
 
 
-
-    private void ShowPopup()
-    {
         popupObject.SetActive(true);
 
 
-        //防止重复播放动画
+
         transform.DOKill();
 
 
+
         //恢复透明度
-        Color color = spriteRenderer.color;
-        color.a = 1f;
-        spriteRenderer.color = color;
+        if (spriteRenderer != null)
+        {
+
+            Color color = spriteRenderer.color;
+
+            color.a = 1f;
+
+            spriteRenderer.color = color;
+
+        }
 
 
 
-        //出现动画
+
+
+
+        //从0开始出现
+
         transform.localScale = Vector3.zero;
 
 
+
         transform.DOScale(
-            1f,
+            targetScale,
             appearDuration
         )
         .SetEase(Ease.OutBack);
 
 
 
+
+
+
+
+
         //停留后Fade
+
         DOVirtual.DelayedCall(
             showDuration,
             () =>
             {
+
+                if (spriteRenderer == null)
+                    return;
+
+
+
                 spriteRenderer
                     .DOFade(
                         0f,
@@ -96,15 +148,27 @@ public class NotificationPopup : MonoBehaviour
                     )
                     .OnComplete(() =>
                     {
+
                         popupObject.SetActive(false);
 
 
-                        //方便下一次显示
+
+                        //重置透明度
+
                         Color reset = spriteRenderer.color;
+
                         reset.a = 1f;
+
                         spriteRenderer.color = reset;
+
+
                     });
-            }
-        );
+
+
+            });
+
+
     }
+
+
 }

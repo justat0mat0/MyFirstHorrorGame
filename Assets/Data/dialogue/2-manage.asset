@@ -26,5 +26,5 @@ MonoBehaviour:
     lineBeginEventId: 
     lineCompleteEventId: 
   dialogueStartEventId: 
-  dialogueEndEventId: 
+  dialogueEndEventId: get_employee_card
   typingSoundOverride: {fileID: 0}
