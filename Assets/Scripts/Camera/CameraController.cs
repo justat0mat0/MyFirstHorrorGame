@@ -1,41 +1,100 @@
 using Cinemachine;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class CameraController : MonoBehaviour
 {
+
     public static CameraController Instance;
+
 
     public List<GameObject> allScenes;
 
-    [SerializeField] private List<CinemachineVirtualCamera> allCameras;
+
+    [SerializeField]
+    private List<CinemachineVirtualCamera> allCameras;
+
+
+
     private void Awake()
     {
-        if (Instance == null) Instance = this;
-        else Destroy(gameObject);
-    }
-    // Start is called before the first frame update
-    void Start()
-    {
-        foreach(var obj in GameObject.FindGameObjectsWithTag("Resteround"))
+
+        if (Instance == null)
         {
-            allScenes.Add(obj);
-            allCameras.Add(obj.transform.Find("CamPos").GetComponentInChildren<CinemachineVirtualCamera>());
+            Instance = this;
         }
+        else
+        {
+            Destroy(gameObject);
+        }
+
     }
 
-    // Update is called once per frame
-    void Update()
+
+
+    private void Start()
     {
-        
+
+        allScenes.Clear();
+        allCameras.Clear();
+
+
+
+        foreach (var obj in GameObject.FindGameObjectsWithTag("Resteround"))
+        {
+
+            Transform camPos =
+                obj.transform.Find("CamPos");
+
+
+            if (camPos == null)
+            {
+                continue;
+            }
+
+
+            CinemachineVirtualCamera cam =
+                camPos.GetComponentInChildren<CinemachineVirtualCamera>();
+
+
+            if (cam != null)
+            {
+                allScenes.Add(obj);
+                allCameras.Add(cam);
+            }
+
+        }
+
     }
+
+
+
+
     public void SwitchToCamera(CinemachineVirtualCamera target)
     {
+
         foreach (var cam in allCameras)
         {
-            cam.Priority = 0;          // 禁用所有相机
+
+            if (cam != null)
+            {
+                cam.Priority = 0;
+            }
+
         }
-        target.Priority = 10;           // 激活目标相机
+
+
+
+        if (target == null)
+        {
+            return;
+        }
+
+
+
+        target.Priority = 10;
+
     }
+
 }

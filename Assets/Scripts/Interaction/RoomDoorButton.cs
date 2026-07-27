@@ -1,29 +1,77 @@
 using Cinemachine;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
+
 public class RoomDoorButton : MonoBehaviour, IPointerClickHandler
 {
+
     public GameObject targetRoom;
-    [SerializeReference]
+
+
     private CinemachineVirtualCamera targetCine;
-    // Start is called before the first frame update
-    void Start()
+
+
+
+    private void Start()
     {
-        targetCine = targetRoom.transform.Find("CamPos").transform.GetComponentInChildren<CinemachineVirtualCamera>();
+        FindCamera();
     }
 
-    // Update is called once per frame
-    void Update()
+
+
+    private void FindCamera()
     {
-        
+
+        if (targetRoom == null)
+        {
+            return;
+        }
+
+
+
+        Transform camPos =
+            targetRoom.transform.Find("CamPos");
+
+
+
+        if (camPos == null)
+        {
+            return;
+        }
+
+
+
+        targetCine =
+            camPos.GetComponentInChildren<CinemachineVirtualCamera>();
+
     }
+
+
+
+
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        // 调用 CameraManager 切换相机
-        CameraController.Instance.SwitchToCamera(targetCine);
+
+        if (targetCine == null)
+        {
+            FindCamera();
+        }
+
+
+
+        if (targetCine == null)
+        {
+            return;
+        }
+
+
+
+        CameraController.Instance.SwitchToCamera(
+            targetCine
+        );
+
     }
+
 }
