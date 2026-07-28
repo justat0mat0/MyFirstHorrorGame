@@ -5,6 +5,9 @@ using DG.Tweening;
 public class NotificationPopup : MonoBehaviour
 {
 
+    public static NotificationPopup Instance;
+
+
 
     [Header("弹窗图片")]
     public GameObject popupObject;
@@ -31,29 +34,43 @@ public class NotificationPopup : MonoBehaviour
 
 
 
-
-
     private SpriteRenderer spriteRenderer;
-
-
 
 
 
     private void Awake()
     {
 
-        if (popupObject != null)
+        if (Instance == null)
         {
-            spriteRenderer = popupObject.GetComponent<SpriteRenderer>();
-
-            popupObject.SetActive(false);
+            Instance = this;
         }
         else
         {
+            Destroy(gameObject);
+            return;
+        }
+
+
+
+        if (popupObject != null)
+        {
+
+            spriteRenderer =
+                popupObject.GetComponent<SpriteRenderer>();
+
+
+            popupObject.SetActive(false);
+
+        }
+        else
+        {
+
             Debug.LogWarning(
                 "NotificationPopup: popupObject没有绑定",
                 this
             );
+
         }
 
     }
@@ -75,11 +92,13 @@ public class NotificationPopup : MonoBehaviour
 
         if (popupObject == null)
         {
+
             Debug.LogWarning(
                 "NotificationPopup: popupObject为空"
             );
 
             return;
+
         }
 
 
@@ -108,10 +127,6 @@ public class NotificationPopup : MonoBehaviour
 
 
 
-
-
-        //从0开始出现
-
         transform.localScale = Vector3.zero;
 
 
@@ -126,10 +141,6 @@ public class NotificationPopup : MonoBehaviour
 
 
 
-
-
-
-        //停留后Fade
 
         DOVirtual.DelayedCall(
             showDuration,
@@ -153,13 +164,15 @@ public class NotificationPopup : MonoBehaviour
 
 
 
-                        //重置透明度
+                        Color reset =
+                            spriteRenderer.color;
 
-                        Color reset = spriteRenderer.color;
 
                         reset.a = 1f;
 
-                        spriteRenderer.color = reset;
+
+                        spriteRenderer.color =
+                            reset;
 
 
                     });
