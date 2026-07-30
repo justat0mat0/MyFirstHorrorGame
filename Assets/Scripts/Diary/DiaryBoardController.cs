@@ -7,8 +7,11 @@ public class DiaryBoardController : MonoBehaviour
     public static DiaryBoardController Instance;
 
 
+
     [Header("碎片显示")]
     public GameObject[] fragmentImages;
+
+
 
 
 
@@ -31,12 +34,41 @@ public class DiaryBoardController : MonoBehaviour
 
 
 
+
+
+
     private void Start()
     {
 
-        Debug.Log("DiaryBoardController启动");
+        Debug.Log(
+            "DiaryBoardController启动"
+        );
+
+
+        // 初始刷新一次
+        RefreshBoard();
 
     }
+
+
+
+
+
+
+
+
+    private void OnEnable()
+    {
+
+        // 每次打开侦探板自动刷新
+        if (DiaryManager.Instance != null)
+        {
+            RefreshBoard();
+        }
+
+    }
+
+
 
 
 
@@ -49,10 +81,13 @@ public class DiaryBoardController : MonoBehaviour
     public void OpenBoard()
     {
 
-        Debug.Log("打开侦探板");
+        Debug.Log(
+            "打开侦探板"
+        );
 
 
         gameObject.SetActive(true);
+
 
 
         RefreshBoard();
@@ -65,13 +100,18 @@ public class DiaryBoardController : MonoBehaviour
 
 
 
+
+
+
     /// <summary>
-    /// 刷新碎片
+    /// 刷新碎片显示状态
     /// </summary>
     public void RefreshBoard()
     {
 
-        Debug.Log("刷新侦探板碎片");
+        Debug.Log(
+            "刷新侦探板碎片"
+        );
 
 
 
@@ -89,6 +129,8 @@ public class DiaryBoardController : MonoBehaviour
 
 
 
+
+
         for (int i = 0; i < fragmentImages.Length; i++)
         {
 
@@ -97,8 +139,10 @@ public class DiaryBoardController : MonoBehaviour
 
 
 
+
             bool unlocked =
                 DiaryManager.Instance.HasFragment(i);
+
 
 
 
@@ -107,8 +151,9 @@ public class DiaryBoardController : MonoBehaviour
 
 
 
+
             Debug.Log(
-                "碎片 " + i + " 状态：" + unlocked
+                "碎片 " + (i + 1) + " 状态：" + unlocked
             );
 
 
@@ -122,13 +167,29 @@ public class DiaryBoardController : MonoBehaviour
 
 
 
+
+
+
     /// <summary>
     /// 关闭侦探板
     /// </summary>
     public void CloseBoard()
     {
 
-        Debug.Log("关闭侦探板");
+        Debug.Log(
+            "关闭侦探板"
+        );
+
+
+
+        // 关闭详情页
+        if (DiaryDetailController.Instance != null)
+        {
+
+            DiaryDetailController.Instance.CloseDetail();
+
+        }
+
 
 
         gameObject.SetActive(false);

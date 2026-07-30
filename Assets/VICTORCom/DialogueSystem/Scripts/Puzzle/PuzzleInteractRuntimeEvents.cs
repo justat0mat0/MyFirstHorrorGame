@@ -13,11 +13,25 @@ namespace VICTORCom
         /// </summary>
         public static event Action<string, PuzzleInteractData, int> EventRaised;
 
-        public static void Raise(string eventId, PuzzleInteractData context, int lineIndex)
+        public static void Raise(
+    string eventId,
+    PuzzleInteractData context,
+    int lineIndex)
         {
             if (string.IsNullOrEmpty(eventId))
                 return;
-            EventRaised?.Invoke(eventId, context, lineIndex);
+
+
+            UnityEngine.Debug.Log(
+                "Puzzle事件广播：" + eventId
+            );
+
+
+            EventRaised?.Invoke(
+                eventId,
+                context,
+                lineIndex
+            );
         }
     }
 }

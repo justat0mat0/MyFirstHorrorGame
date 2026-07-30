@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 
@@ -7,11 +8,20 @@ public class DiaryManager : MonoBehaviour
     public static DiaryManager Instance;
 
 
+
     [Header("日记碎片数量")]
     public int fragmentCount = 6;
 
 
+
     private bool[] collectedFragments;
+
+
+
+    // 日记更新事件
+    public event Action OnDiaryUpdated;
+
+
 
 
 
@@ -33,6 +43,7 @@ public class DiaryManager : MonoBehaviour
         }
 
 
+
         collectedFragments =
             new bool[fragmentCount];
 
@@ -42,6 +53,12 @@ public class DiaryManager : MonoBehaviour
 
 
 
+
+
+
+    /// <summary>
+    /// 收集日记碎片
+    /// </summary>
     public void CollectFragment(int id)
     {
 
@@ -58,6 +75,8 @@ public class DiaryManager : MonoBehaviour
 
 
 
+
+
         if (collectedFragments[id])
         {
 
@@ -71,6 +90,8 @@ public class DiaryManager : MonoBehaviour
 
 
 
+
+
         collectedFragments[id] = true;
 
 
@@ -80,17 +101,28 @@ public class DiaryManager : MonoBehaviour
         );
 
 
+
+        // 通知其他系统（日记板、icon等）
+        OnDiaryUpdated?.Invoke();
+
     }
 
 
 
 
 
+
+
+
+    /// <summary>
+    /// 是否已经收集某碎片
+    /// </summary>
     public bool HasFragment(int id)
     {
 
         if (id < 0 || id >= collectedFragments.Length)
             return false;
+
 
 
         return collectedFragments[id];
@@ -101,10 +133,17 @@ public class DiaryManager : MonoBehaviour
 
 
 
+
+
+
+    /// <summary>
+    /// 当前收集数量
+    /// </summary>
     public int GetCollectedCount()
     {
 
         int count = 0;
+
 
 
         foreach (bool collected in collectedFragments)
@@ -116,8 +155,27 @@ public class DiaryManager : MonoBehaviour
         }
 
 
+
         return count;
 
     }
+
+
+
+
+
+
+
+
+    /// <summary>
+    /// 是否收集完成
+    /// </summary>
+    public bool AllFragmentsCollected()
+    {
+
+        return GetCollectedCount() >= fragmentCount;
+
+    }
+
 
 }
