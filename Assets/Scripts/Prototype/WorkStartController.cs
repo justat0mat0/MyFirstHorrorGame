@@ -10,15 +10,20 @@ public class WorkStartController : MonoBehaviour
     public CanvasGroup workStartPopup;
 
 
+
     [Header("Employee Card")]
     public GameObject employeeCard;
 
     public GameObject cardReader;
 
 
+
     [Header("Timing")]
     public float popupFadeTime = 0.5f;
+
     public float popupShowTime = 2f;
+
+
 
 
     private bool started = false;
@@ -26,21 +31,45 @@ public class WorkStartController : MonoBehaviour
     private bool canUseCard = false;
 
 
+
+
+
     private void Start()
     {
 
+        Debug.Log(
+            "WorkStartController Ready"
+        );
+
+
+
         if (employeeCard != null)
+        {
+
             employeeCard.SetActive(false);
+
+        }
+
 
 
         if (cardReader != null)
+        {
+
             cardReader.SetActive(false);
+
+        }
 
 
     }
 
 
 
+
+
+
+
+
+    // WorkStartTrigger调用
     public void StartWorkSequence()
     {
 
@@ -48,19 +77,36 @@ public class WorkStartController : MonoBehaviour
             return;
 
 
+
         started = true;
 
 
-        StartCoroutine(StartSequence());
+
+        Debug.Log(
+            "开始营业流程"
+        );
+
+
+
+        StartCoroutine(
+            StartSequence()
+        );
+
 
     }
+
+
+
+
 
 
 
     private IEnumerator StartSequence()
     {
 
+
         ShowWorkPopup();
+
 
 
         yield return new WaitForSeconds(
@@ -68,14 +114,21 @@ public class WorkStartController : MonoBehaviour
         );
 
 
-        // Popup结束后等待刷卡
+
         canUseCard = true;
 
 
-        Debug.Log("等待玩家按K刷卡");
+
+        Debug.Log(
+            "等待玩家按K刷卡"
+        );
 
 
     }
+
+
+
+
 
 
 
@@ -84,33 +137,68 @@ public class WorkStartController : MonoBehaviour
     private void ShowWorkPopup()
     {
 
+        Debug.Log(
+            "显示刷卡提示Popup"
+        );
+
+
+
         if (workStartPopup == null)
+        {
+
+            Debug.LogWarning(
+                "WorkStartPopup没有绑定"
+            );
+
             return;
+
+        }
+
+
+
+
+
+        // 防止之前状态残留
+        workStartPopup.DOKill();
+
 
 
         workStartPopup.gameObject.SetActive(true);
 
-        workStartPopup.alpha = 0;
+
+
+        workStartPopup.alpha = 0f;
+
+
 
 
         workStartPopup.DOFade(
-            1,
+            1f,
             popupFadeTime
         );
 
 
+
+
         DOVirtual.DelayedCall(
             popupShowTime,
-            () => {
+            () =>
+            {
+
+                if (workStartPopup == null)
+                    return;
+
 
 
                 workStartPopup.DOFade(
-                    0,
+                    0f,
                     popupFadeTime
                 )
-                .OnComplete(() => {
+                .OnComplete(() =>
+                {
 
                     workStartPopup.gameObject.SetActive(false);
+
 
                 });
 
@@ -119,6 +207,10 @@ public class WorkStartController : MonoBehaviour
 
 
     }
+
+
+
+
 
 
 
@@ -135,19 +227,12 @@ public class WorkStartController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.K))
         {
 
-            if (EmployeeCardManager.Instance != null &&
-               EmployeeCardManager.Instance.HasInternCard())
-            {
+            Debug.Log(
+                "玩家按下K"
+            );
 
-                ShowEmployeeCard();
 
-            }
-            else
-            {
-
-                Debug.Log("玩家还没有员工卡");
-
-            }
+            ShowEmployeeCard();
 
         }
 
@@ -158,18 +243,58 @@ public class WorkStartController : MonoBehaviour
 
 
 
+
+
+
+
     private void ShowEmployeeCard()
     {
 
-        Debug.Log("显示员工卡");
+        Debug.Log(
+            "显示Work员工卡"
+        );
 
 
-        if (employeeCard != null)
-            employeeCard.SetActive(true);
+
+        if (employeeCard == null)
+        {
+
+            Debug.LogError(
+                "employeeCard没有绑定"
+            );
+
+            return;
+
+        }
+
+
+
+
+        employeeCard.SetActive(true);
+
+
+
+        Debug.Log(
+            "卡active:"
+            + employeeCard.activeSelf
+        );
+
+
+
 
 
         if (cardReader != null)
+        {
+
             cardReader.SetActive(true);
+
+
+            Debug.Log(
+                "刷卡机active:"
+                + cardReader.activeSelf
+            );
+
+        }
 
 
     }

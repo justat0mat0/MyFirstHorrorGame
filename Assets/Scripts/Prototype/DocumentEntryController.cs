@@ -1,21 +1,24 @@
 using UnityEngine;
 using DG.Tweening;
 
+
 public class DocumentEntryController : MonoBehaviour
 {
 
     [Header("展开文件")]
     public GameObject menuUnfolded;
+
     public GameObject allergyUnfolded;
 
 
-    [Header("滑入设置")]
-    public Vector3 moveOffset = new Vector3(0, -3f, 0);
 
+    [Header("移动设置")]
     public float moveDuration = 0.8f;
 
 
+
     private bool arrived = false;
+
 
 
 
@@ -26,22 +29,90 @@ public class DocumentEntryController : MonoBehaviour
             menuUnfolded.SetActive(false);
 
 
+
+        if (allergyUnfolded != null)
+            allergyUnfolded.SetActive(false);
+
+    }
+
+
+
+
+
+
+
+    public void PlayEntryAnimation()
+    {
+
+        arrived = false;
+
+
+
+        // 初始化展开状态
+        if (menuUnfolded != null)
+            menuUnfolded.SetActive(false);
+
+
+
         if (allergyUnfolded != null)
             allergyUnfolded.SetActive(false);
 
 
-        // 记录当前位置
-        Vector3 targetPosition = transform.position + moveOffset;
 
 
-        transform.DOMove(targetPosition, moveDuration)
-            .SetEase(Ease.OutQuad)
-            .OnComplete(() =>
-            {
-                arrived = true;
-            });
+
+        // 当前Inspector位置作为起点
+        Vector3 startPosition =
+            transform.position;
+
+
+
+        // 获取摄像机中心位置
+        Vector3 targetPosition =
+            Camera.main.transform.position;
+
+
+
+        // 2D游戏保持Z轴不变
+        targetPosition.z =
+            startPosition.z;
+
+
+
+
+        // 回到起点
+        transform.position =
+            startPosition;
+
+
+
+        // 移动到镜头中心
+        transform.DOMove(
+            targetPosition,
+            moveDuration
+        )
+        .SetEase(
+            Ease.OutQuad
+        )
+        .OnComplete(() =>
+        {
+
+            arrived = true;
+
+
+            Debug.Log(
+                "DocumentEntry移动到中心完成"
+            );
+
+        });
+
 
     }
+
+
+
+
+
 
 
 
@@ -52,9 +123,14 @@ public class DocumentEntryController : MonoBehaviour
             return;
 
 
+
         OpenDocument();
 
     }
+
+
+
+
 
 
 
@@ -64,13 +140,31 @@ public class DocumentEntryController : MonoBehaviour
         gameObject.SetActive(false);
 
 
+
         if (menuUnfolded != null)
+        {
+
             menuUnfolded.SetActive(true);
+
+        }
+
 
 
         if (allergyUnfolded != null)
+        {
+
             allergyUnfolded.SetActive(true);
 
+        }
+
+
+
+        Debug.Log(
+            "文件展开"
+        );
+
+
     }
+
 
 }

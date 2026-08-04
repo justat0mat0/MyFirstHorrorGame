@@ -1,6 +1,5 @@
 using UnityEngine;
 
-
 public class EmployeeCardManager : MonoBehaviour
 {
 
@@ -14,7 +13,7 @@ public class EmployeeCardManager : MonoBehaviour
     private void Awake()
     {
 
-        if (Instance != null)
+        if (Instance != null && Instance != this)
         {
             Destroy(gameObject);
             return;
@@ -24,7 +23,11 @@ public class EmployeeCardManager : MonoBehaviour
         Instance = this;
 
 
+        // 必须保证这个物体是Hierarchy根节点
         DontDestroyOnLoad(gameObject);
+
+
+        Debug.Log("EmployeeCardManager 初始化");
 
     }
 
@@ -32,7 +35,7 @@ public class EmployeeCardManager : MonoBehaviour
 
 
 
-    // 获得员工卡
+    // 获得实习员工证
     public void ObtainInternCard()
     {
 
@@ -52,6 +55,20 @@ public class EmployeeCardManager : MonoBehaviour
     {
 
         return hasInternCard;
+
+    }
+
+
+
+
+
+    // 测试用：查看当前状态
+    public void DebugCardState()
+    {
+
+        Debug.Log(
+            "当前员工卡状态：" + hasInternCard
+        );
 
     }
 

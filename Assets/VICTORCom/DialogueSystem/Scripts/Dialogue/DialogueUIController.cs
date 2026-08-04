@@ -287,7 +287,17 @@ namespace VICTORCom
             if (rootPanel != null)
                 rootPanel.SetActive(false);
             if (ended != null)
-                DialogueRuntimeEvents.Raise(ended.dialogueEndEventId, ended, -1);
+                Debug.Log(
+     "Dialogue End Event:"
+     + ended.dialogueEndEventId
+ );
+
+
+            DialogueRuntimeEvents.Raise(
+                ended.dialogueEndEventId,
+                ended,
+                -1
+            );
             onDialogueEnded?.Invoke();
         }
 
